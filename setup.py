@@ -2,20 +2,28 @@
 """Builds package for release."""
 
 import re
-
 import setuptools
 
-with open("PyPDFForm/__init__.py", encoding="utf8") as f:
-    version = re.search(r'__version__ = "(.*?)"', f.read())
-    if version:
-        version = version.group(1)
+# Extract version from __init__.py
+with open("PyPDFForm/__init__.py", encoding="utf-8") as f:
+    version = None
+    for line in f:
+        match = re.search(r'__version__ = "(.*?)"', line)
+        if match:
+            version = match.group(1)
+            break
+    if version is None:
+        raise ValueError("Version not found in PyPDFForm/__init__.py")
 
+# Read the long description from README.md
 with open("README.md", mode="r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+# Read dependencies from prod_requirements.txt
 with open("prod_requirements.txt", mode="r", encoding="utf-8") as requirements:
-    dependencies = [each.replace("\n", "") for each in requirements.readlines()]
+    dependencies = [line.strip() for line in requirements.readlines()]
 
+# Set up the package
 setuptools.setup(
     name="PyPDFForm",
     version=version,
