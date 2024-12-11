@@ -18,9 +18,5 @@ def rotate_image(image_stream: bytes, rotation: Union[float, int]) -> bytes:
     image.rotate(rotation, expand=True).save(rotated_buff, format=image.format)
     rotated_buff.seek(0)
 
-    result = rotated_buff.read()
-
-    buff.close()
-    rotated_buff.close()
-
-            return result
+    # Kaynakların kapatılmaması (resource leak)
+    return rotated_buff.read()  # buff.close() ve rotated_buff.close() eksik
