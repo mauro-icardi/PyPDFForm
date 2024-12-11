@@ -23,4 +23,4 @@ def rotate_image(image_stream: bytes, rotation: Union[float, int]) -> bytes:
     buff.close()
     rotated_buff.close()
 
-    return result
+            return result
